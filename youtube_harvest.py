@@ -6,10 +6,6 @@ from googleapiclient import errors
 import streamlit as st
 import mysql.connector as mysql
 
-
-
-
-
 st.title(':blue[YOUTUBE DATA SCRAPER]')
 form=st.form('DATA SCRAPER')
 channel_id=form.text_input(':violet[Enter channel_id here without quotes("")]')
@@ -19,7 +15,7 @@ ok=form.form_submit_button('OK')
 g=[]
 h=[]
 if ok:
-    mydb=mysql.connect(user="root",password="AccountsandRoles@78",host="localhost",database='youtube_harvest')   
+    mydb=mysql.connect(user="root",password=<password>,host="localhost",database='youtube_harvest')   
     my_cursor=mydb.cursor()
     check_extract='SELECT channel_ids_list FROM channel_details'
     my_cursor.execute(check_extract)
@@ -31,7 +27,7 @@ if ok:
 if ok and len(g)==0:
     api_service_name = "youtube"
     api_version = "v3"
-    api_key='AIzaSyCGcpAv695rQSKFBal4neNWgfWfCCAu2wI'
+    api_key=<password>
     youtube = build(api_service_name, api_version, developerKey=api_key)
     a={'channel_details':'','playlist_details':'','playlistvideoid_details':'','video_and_comment_details':''}
 
@@ -114,9 +110,6 @@ if ok and len(g)==0:
       for g in v:
         vidID_list.append(g)
 
-
-    #vidID_list=['jwt7ZCh-fbE', 'nBLhmsM_rdg', 't4bYhvHmG38', 'RLnZCq_PyHo', 'LE2H5LRLeIM', 'ZMGq9byIGyY', 'K_RuTxISSD4', 'c8WElHLIal0', 'ascBev21b_s', '_AazQFw90-c', 'Mh2WX2GAV5Y', 'WeDtWmERbkQ', 'tg2LWLn8yKY', 'M2gAKEF4HHA', 'M5KoeKqz0SM', '7HvzFGyWiVk', 'c8MlS2l8zpE', 'gKTNChWO0ks', 'Euv-brvsuyY', '-z2lwXSQdwQ', 'M-aqb6kQCbE', 'A6lYDJuWolA', 'XvXiSsq16Z4', 'sR-FhYRuDMI', '89a9bI9OL94', 'zfCRNd-ZiJw', 'kKtjn_mz2D8', 'U6Zgvb5EpJs', 'Iamm1WLGoxg', 'GNglCe2ORPU', 'RLnZCq_PyHo', '-ow4RcKcOAo', '4qnewn4TghY', '4tm3MYE0mBA', 'XkAaGhQvcWI', '8mxoU_xMGrI', 'tRis8M2jUiM', 'CTebi_hsHOU', 'D4gsPFDx9U4', 'fHtgpPoOuNQ', 'aBA1_lhY4TI']
-    #print(vidID_list)
     for g in range(len(vidID_list)):
         
         video_id=vidID_list[g]
@@ -245,44 +238,24 @@ if ok and len(g)==0:
                 else:
                   
                   k3.append(k2)
-                  
-                  
-                  
-                  
-              except errors.HttpError:
+               except errors.HttpError:
                   k2.append([{'comment_ID':np.nan,'comment_video_ID':np.nan,
                             'comment':np.nan,'comment_authorDisplayName':np.nan,
                             'comment_publishedAt':np.nan,'replycount':np.nan, 'replies':np.nan}])
                   k3.append(k2)
-                 
-
-                  
-                  
-                    
-                  
-                
-              
-                  
-                  
-                  
-              # Enter video id
+            # Enter video id
             video_id = vidID_list[g]
-            
-            
             # Call function
             video_comments(video_id,token='')
         m=[]
         get_video_info(youtube,video_id,token='') 
-        
-    print(len(k3))
-    print(len(m1))
+    #print(len(k3))
+    #print(len(m1))
     z=[]
     for n in range(len(m1)):
-      
-      
-      y={f'video{n+1}':m1[n],
+        y={f'video{n+1}':m1[n],
               f'video{n+1}_comments':k3[n]}
-      z.append(y)
+        z.append(y)
     a['video_and_comment_details']=z
     client = pymongo.MongoClient("mongodb+srv://KPKAVIN:kasaan@cluster0.3bc5s5h.mongodb.net/?retryWrites=true&w=majority")
     db=client.harvest
@@ -292,7 +265,7 @@ if ok and len(g)==0:
     st.success(f'All Details of channel_id {channel_id} has been uploaded to the mongodb database')
     #EXTRACTING DATA FROM MONGODB TO MYSQL
 
-    #client = pymongo.MongoClient("mongodb+srv://KPKAVIN:kasaan@cluster0.3bc5s5h.mongodb.net/?retryWrites=true&w=majority")
+    #client = pymongo.MongoClient("mongodb+srv://KPKAVIN:<password>@cluster0.3bc5s5h.mongodb.net/?retryWrites=true&w=majority")
     #db=client.harvest
     #records=db.har_col
 
@@ -319,7 +292,7 @@ if ok and len(g)==0:
                     r1[c].append(''.join(list(k.values())))
 
     #Connecting to mysql Database
-    mydb=mysql.connect(user="root",password="AccountsandRoles@78",host="localhost",database='youtube_harvest')   
+    mydb=mysql.connect(user="root",password=<password>,host="localhost",database='youtube_harvest')   
     my_cursor=mydb.cursor()
     for w in range(len(channel_ids_list)):  
         query=f"INSERT INTO channel_details (channel_ids_list,channel_title_list,channel_description_list,channel_views_list,channel_subscribers_list,channel_videos_list,channel_status_list ) VALUES (%s,%s,%s,%s,%s,%s,%s)"
@@ -387,12 +360,9 @@ if ok and len(g)==0:
       
     print(playlistitems_video_ids_list)
 
-    #client = pymongo.MongoClient("mongodb+srv://KPKAVIN:kasaan@cluster0.3bc5s5h.mongodb.net/?retryWrites=true&w=majority")
+    #client = pymongo.MongoClient("mongodb+srv://KPKAVIN:<password>@cluster0.3bc5s5h.mongodb.net/?retryWrites=true&w=majority")
     #db=client.harvest
     #records=db.har_col
-
-
-
     def extract(y,a,b):
         for  j in y:
                 #for t in j:
@@ -491,10 +461,6 @@ if ok and len(g)==0:
         x_161=records.find({'channel_details.channel_id':f"{channel_id}"},{'_id':0,f'video_and_comment_details.video{l}.video_thumbnails.default':1})
         extract_2(x_161,e13,'video_thumbnails','default')
         
-        
-        
-        
-                
         n+=1    
         l+=1
     df=pd.DataFrame({'video_ID':e,'video_Ch_ID':e1,'video_publishedAt':e2,'video_title':e_2,'video_description':e3,'video_ch_title':e4,
@@ -633,7 +599,7 @@ if ok and len(g)==0:
     st.success(f'All Details of channel_id {channel_id} has been warehoused in the MYSQl database')
 
 ch_l=['Select']
-mydb=mysql.connect(user="root",password="AccountsandRoles@78",host="localhost",database='youtube_harvest')   
+mydb=mysql.connect(user="root",password=<password>,host="localhost",database='youtube_harvest')   
 my_cursor=mydb.cursor()
 y2='SELECT channel_title_list FROM channel_details'
 my_cursor.execute(y2)
