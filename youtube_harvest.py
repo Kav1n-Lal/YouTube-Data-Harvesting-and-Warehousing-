@@ -92,7 +92,7 @@ if ok and len(g)==0:
                         videoidlist_data=dict(playlist_ID=response_4['items'][k]['id'],
                                         playlist_videoid=response_4['items'][k]['snippet']['resourceId']['videoId'])
                         p.append(videoidlist_data)
-            if "nextPageToken" in response_4: 
+            if "nextPageToken" in response_4 and len(p)<=10: 
                     return get_playlistvideoid_info(youtube,playlist_id, response_4['nextPageToken'])
             else:
                 a['playlistvideoid_details']=p
