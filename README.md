@@ -9,6 +9,7 @@
 ![Screenshot (220)](https://github.com/Kav1n-Lal/YouTube-Data-Harvesting-and-Warehousing-/assets/116146011/a393021b-53d1-4a93-b3af-dcad8a5a335a)
 
 **Create a database in MYSQL and create these tables below:**
+
 **CREATE TABLE channel_details(
 channel_ids_list varchar(255) primary key,
 channel_title_list varchar(255),channel_description_list text,
